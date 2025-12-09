@@ -1,3 +1,4 @@
+import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 let products: any[] = [];
@@ -16,6 +17,10 @@ export async function GET() {
 // Body: { name: string, price: number }
 export async function POST(req: NextRequest) {
   const data = await req.json();
+
+  if (products.length >= 10){
+    return NextResponse.json({error: "Превышен лимит Продуктов"}, {status: 400});
+  }
 
   const newProduct = {
     id: products.length + 1,
